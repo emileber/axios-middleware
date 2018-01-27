@@ -11,9 +11,10 @@
     "homepage": "https://github.com/emileber/axios-middleware#readme",
     "scripts": {
         "clean": "rimraf dist",
+        "prebuild": "npm run clean",
         "prepush": "npm run lint",
-        "prepare": "npm run clean && npm run build:umd && npm run build:umd:min",
-        "build": "webpack src/index.js dist/axios-middleware.js",
+        "prepare": "npm run build",
+        "build": "npm run build:umd && npm run build:umd:min",
         "build:umd": "webpack src/index.js dist/axios-middleware.js",
         "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/axios-middleware.min.js",
         "build:lint-config": "eslint -c .eslintrc.js --print-config .eslintrc.js > .eslintrc.json",
@@ -21,7 +22,7 @@
         "test:unit": "jest --config test/jest.conf.js",
         "test:coverage": "npm run test:unit -- --coverage",
         "lint": "eslint src test",
-        "docs": "docsify serve ./docs --port 3030"
+        "docs": "docsify serve ./docs"
     },
     "files": [
         "dist"

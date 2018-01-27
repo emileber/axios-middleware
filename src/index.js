@@ -3,8 +3,5 @@ import HttpMiddlewareService from './HttpMiddlewareService';
 
 export default {
     HttpMiddleware,
-    HttpMiddlewareService
-}
-
-
-
+    HttpMiddlewareService,
+};

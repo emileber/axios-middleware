@@ -4,7 +4,7 @@ module.exports = {
     rootDir: path.resolve(__dirname, '../'),
     moduleFileExtensions: [
         'js',
-        'json'
+        'json',
     ],
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1', // 'src' directory alias

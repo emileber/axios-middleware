@@ -1,5 +1,5 @@
 # project
-/build/
+/dist/
 /test/coverage/
 
 # IDE and OS
