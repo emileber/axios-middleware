@@ -1,7 +1,7 @@
 {
     "name": "axios-middleware",
     "version": "0.1.0",
-    "description": "Simple axios middleware service",
+    "description": "Simple axios HTTP middleware service",
     "author": "Emile Bergeron <ber.emile@prismalstudio.com>",
     "license": "MIT",
     "main": "dist/axios-middleware.js",
