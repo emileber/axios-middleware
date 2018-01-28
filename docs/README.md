@@ -1,6 +1,6 @@
 # Axios HTTP middleware service
 
-Simple [axios](https://github.com/axios/axios) HTTP middleware service to simplify hooking to HTTP request made through Axios.
+Simple [axios](https://github.com/axios/axios) HTTP middleware service to simplify hooking to HTTP requests made through Axios.
 
 ## Installation
 
@@ -9,6 +9,13 @@ npm install --save axios-middleware
 ```
 
 ## Getting started
+
+There are two classes exposed in this module:
+
+- `HttpMiddleware`: the base class to extend from when creating your own middleware.
+- `HttpMiddlewareService` which manages the middleware stack and the hooking into the passed axios.
+
+It works with either the global axios or a local instance.
 
 ### Create your middleware
 
