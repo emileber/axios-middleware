@@ -2,11 +2,18 @@ const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const projectRoot = path.join(__dirname, '..');
+const env = process.env.NODE_ENV;
+const isProd = env === 'production';
+const projectRoot = path.join(__dirname, './');
 
 const config = {
     context: projectRoot,
+    entry: {
+        'axios-middleware': './src/index.js',
+    },
     output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: `[name]${isProd ? '.min' : ''}.js`,
         library: 'AxiosMiddleware',
         libraryTarget: 'umd',
         libraryExport: 'default',
@@ -19,6 +26,7 @@ const config = {
         extensions: ['.js', '.json'],
         alias: {
             '@': `${projectRoot}/src`,
+            '~': `${projectRoot}/test`,
         },
     },
     module: {
@@ -32,14 +40,14 @@ const config = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': process.env.NODE_ENV,
+            'process.env': env,
         }),
         // enable scope hoisting
         new webpack.optimize.ModuleConcatenationPlugin(),
     ],
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (isProd) {
     config.plugins.push(
         new UglifyJsPlugin({
             uglifyOptions: {

@@ -1,5 +1,5 @@
-import HttpMiddleware from './HttpMiddleware';
-import HttpMiddlewareService from './HttpMiddlewareService';
+import HttpMiddleware from './middleware';
+import HttpMiddlewareService from './service';
 
 export default {
     HttpMiddleware,
