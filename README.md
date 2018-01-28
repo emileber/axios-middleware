@@ -1,5 +1,8 @@
 # axios-middleware
 
+[![Build Status](https://travis-ci.org/emileber/axios-middleware.svg?branch=master)](https://travis-ci.org/emileber/axios-middleware)
+[![devDependency Status](https://david-dm.org/emileber/axios-middleware/dev-status.svg)](https://david-dm.org/emileber/axios-middleware#info=devDependencies)
+
 Simple [axios](https://github.com/axios/axios) HTTP middleware service.
 
 Explore [**the documentation**](https://emileber.github.io/axios-middleware/).
