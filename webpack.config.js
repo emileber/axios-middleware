@@ -4,7 +4,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const env = process.env.NODE_ENV;
 const isProd = env === 'production';
-const projectRoot = path.join(__dirname, './');
+const projectRoot = path.resolve(__dirname, './');
 
 const config = {
     context: projectRoot,
