@@ -2,13 +2,7 @@
 
 Simple [axios](https://github.com/axios/axios) HTTP middleware service to simplify hooking to HTTP requests made through Axios.
 
-## Installation
-
-```
-npm install --save axios-middleware
-```
-
-## Getting started
+## What's this?
 
 There are two classes exposed in this module:
 
@@ -17,30 +11,21 @@ There are two classes exposed in this module:
 
 It works with either the global axios or a local instance.
 
-### Create your middleware
+## Creating your middleware
 
 Here's a simple example of a locale middleware who sets a language header on each AJAX request.
 
 ```javascript
 import { HttpMiddleware } from 'axios-middleware';
 
-export default class LocaleMiddleware extends HttpMiddleware {
-    constructor(i18n) {
-        super();
-        this.i18n = i18n;
-    }
-    
-    onRequest(config) {
-        config.headers = {
-            locale: this.i18n.lang,
-            ...config.headers
-        };
-        return config;
+export default class ErrorMiddleware extends HttpMiddleware {
+    handleResponseError(error) {
+        console.log("Handling:", error);
     }
 }
 ```
 
-### Use the middleware service
+## Using the service
 
 Simplest use-case:
 
