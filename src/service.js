@@ -31,9 +31,7 @@ export default class HttpMiddlewareService {
         const http = this.http;
         if (this.http) {
             const interceptors = http.interceptors;
-            interceptors.request.eject(
-                this._requestInterceptor,
-            );
+            interceptors.request.eject(this._requestInterceptor);
             interceptors.response.eject(this._responseInterceptor);
         }
     }
