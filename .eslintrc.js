@@ -13,15 +13,6 @@ module.exports = {
     extends: [
         'airbnb-base',
     ],
-
-    // check if imports actually resolve
-    settings: {
-        'import/resolver': {
-            webpack: {
-                config: 'webpack.config.js',
-            },
-        },
-    },
     // add your custom rules here
     rules: {
         'no-duplicate-imports': 'error',
@@ -34,6 +25,13 @@ module.exports = {
         'class-methods-use-this': 'off',
         'indent': ['error', 4, {
             SwitchCase: 1,
+        }],
+        'comma-dangle': ['error', {
+            'arrays': 'always-multiline',
+            'objects': 'always-multiline',
+            'imports': 'always-multiline',
+            'exports': 'always-multiline',
+            'functions': 'never',
         }],
         // don't require .js extension when importing
         'import/extensions': ['error', 'always', { js: 'never' }],

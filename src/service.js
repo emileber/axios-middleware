@@ -18,11 +18,11 @@ export default class HttpMiddlewareService {
 
         this._requestInterceptor = interceptors.request.use(
             config => this._onRequest(config),
-            error => this._handleRequestError(error),
+            error => this._handleRequestError(error)
         );
         this._responseInterceptor = interceptors.response.use(
             response => this._onResponse(response),
-            error => this._handleResponseError(error),
+            error => this._handleResponseError(error)
         );
         return this;
     }

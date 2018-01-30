@@ -1,22 +1,5 @@
 {
     "presets": [
-        [
-            "env",
-            {
-                "modules": false
-            }
-        ],
-        "stage-2"
-    ],
-    "plugins": [
-        "syntax-trailing-function-commas"
-    ],
-    "env": {
-        "test": {
-            "presets": [
-                "env",
-                "stage-2"
-            ]
-        }
-    }
+        "env"
+    ]
 }

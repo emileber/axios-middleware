@@ -1,6 +1,6 @@
-import Middleware from '@/middleware';
+import { HttpMiddleware } from '../../dist/axios-middleware.common';
 
-export default class MiddlewareMock extends Middleware {
+export default class MiddlewareMock extends HttpMiddleware {
     constructor() {
         super();
         this.mocks = {

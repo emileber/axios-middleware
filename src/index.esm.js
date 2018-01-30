@@ -6,3 +6,8 @@ export default {
     HttpMiddlewareService,
     version: '__VERSION__',
 };
+
+export {
+    HttpMiddleware,
+    HttpMiddlewareService,
+};

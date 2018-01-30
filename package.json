@@ -4,24 +4,26 @@
     "description": "Simple axios HTTP middleware service",
     "author": "Emile Bergeron <ber.emile@prismalstudio.com>",
     "license": "MIT",
-    "main": "dist/axios-middleware.js",
+    "main": "dist/axios-middleware.common.js",
+    "module": "dist/axios-middleware.esm.js",
+    "unpkg": "dist/axios-middleware.js",
     "bugs": {
         "url": "https://github.com/emileber/axios-middleware/issues"
     },
-    "homepage": "https://github.com/emileber/axios-middleware#readme",
+    "homepage": "https://emileber.github.io/axios-middleware/#/",
     "scripts": {
         "clean": "rimraf dist",
         "prebuild": "npm run clean",
         "prepush": "npm run lint",
         "prepublishOnly": "npm run build",
-        "build": "npm run build:umd && npm run build:umd:min",
-        "build:umd": "webpack",
-        "build:umd:min": "cross-env NODE_ENV=production webpack",
+        "build": "node build/build.main.js",
+        "build:dev": "rollup -c build/rollup.dev.config.js",
         "build:lint-config": "eslint -c .eslintrc.js --print-config .eslintrc.js > .eslintrc.json",
+        "release": "bash build/release.sh",
         "test": "npm run lint && npm run test:unit",
-        "test:unit": "jest --config test/jest.conf.js",
+        "test:unit": "npm run build:dev && jest --config test/jest.conf.js",
         "test:coverage": "npm run test:unit -- --coverage",
-        "lint": "eslint src test",
+        "lint": "eslint src test build",
         "docs": "docsify serve ./docs"
     },
     "files": [
@@ -45,31 +47,21 @@
     "devDependencies": {
         "axios": "^0.17.1",
         "axios-mock-adapter": "^1.11.0",
-        "babel-core": "^6.22.1",
-        "babel-eslint": "^8.0.3",
-        "babel-jest": "^21.0.2",
-        "babel-loader": "^7.1.1",
-        "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
-        "babel-plugin-transform-runtime": "^6.22.0",
-        "babel-preset-env": "^1.3.2",
-        "babel-preset-stage-2": "^6.22.0",
+        "babel-preset-env": "^1.6.1",
         "cross-env": "^5.1.3",
         "docsify-cli": "^4.2.0",
         "eslint": "^4.16.0",
         "eslint-config-airbnb-base": "^11.3.2",
         "eslint-friendly-formatter": "^3.0.0",
-        "eslint-import-resolver-webpack": "^0.8.4",
         "eslint-loader": "^1.9.0",
         "eslint-plugin-import": "^2.8.0",
         "husky": "^0.14.3",
         "jest": "^22.0.3",
         "rimraf": "^2.6.0",
-        "uglifyjs-webpack-plugin": "^1.1.4",
-        "webpack": "^3.6.0"
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not ie < 11"
-    ]
+        "rollup": "^0.50.0",
+        "rollup-plugin-buble": "^0.16.0",
+        "rollup-plugin-replace": "^2.0.0",
+        "rollup-watch": "^4.3.1",
+        "uglify-js": "^3.1.2"
+    }
 }

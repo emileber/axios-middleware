@@ -1,6 +1,7 @@
 # project
 /dist/
 /test/coverage/
+.eslintrc.json
 
 # IDE and OS
 .DS_Store
