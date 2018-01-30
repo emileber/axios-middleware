@@ -6,34 +6,35 @@ export default class HttpMiddlewareService {
     }
 
     /**
-     *
      * @param {Axios} axios
      */
     setHttp(axios) {
         this.unsetHttp();
 
-        this.http = axios;
+        if (axios) {
+            this.http = axios;
 
-        const interceptors = axios.interceptors;
+            const interceptors = axios.interceptors;
 
-        this._requestInterceptor = interceptors.request.use(
-            config => this._onRequest(config),
-            error => this._handleRequestError(error)
-        );
-        this._responseInterceptor = interceptors.response.use(
-            response => this._onResponse(response),
-            error => this._handleResponseError(error)
-        );
+            this._requestInterceptor = interceptors.request.use(
+                config => this._onRequest(config),
+                error => this._handleRequestError(error)
+            );
+            this._responseInterceptor = interceptors.response.use(
+                response => this._onResponse(response),
+                error => this._handleResponseError(error)
+            );
+        }
         return this;
     }
 
     unsetHttp() {
-        const http = this.http;
         if (this.http) {
-            const interceptors = http.interceptors;
+            const interceptors = this.http.interceptors;
             interceptors.request.eject(this._requestInterceptor);
             interceptors.response.eject(this._responseInterceptor);
         }
+        return this;
     }
 
     /**
@@ -78,23 +79,27 @@ export default class HttpMiddlewareService {
 
     _onRequest(config) {
         return this.middlewares.reduce(
-            (acc, middleware) => middleware.onRequest(acc),
+            (acc, middleware) => (middleware.onRequest ? middleware.onRequest(acc) : acc),
             config);
     }
 
     _handleRequestError(error) {
-        this.middlewares.forEach(middleware => middleware.handleRequestError(error));
+        this.middlewares.forEach(middleware => middleware.handleRequestError &&
+            middleware.handleRequestError(error));
         return Promise.reject(error);
     }
 
     _onResponse(response) {
-        return this.middlewares.reduce(
-            (acc, middleware) => middleware.onResponse(acc),
+        return this.middlewares.reduceRight(
+            (acc, middleware) => (middleware.onResponse ? middleware.onResponse(acc) : acc),
             response);
     }
 
     _handleResponseError(error) {
-        this.middlewares.forEach(middleware => middleware.handleResponseError(error));
+        for (let i = this.middlewares.length; i--;) {
+            const middleware = this.middlewares[i];
+            if (middleware.handleResponseError) middleware.handleResponseError(error);
+        }
         return Promise.reject(error);
     }
 }

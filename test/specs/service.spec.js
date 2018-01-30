@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { HttpMiddlewareService, HttpMiddleware } from '../../dist/axios-middleware.common';
-import MiddlewareMock from '../mocks/MiddlewareMock';
+// import MiddlewareMock from '../mocks/MiddlewareMock';
 
 const http = axios.create();
 const mock = new MockAdapter(http);
@@ -27,32 +27,32 @@ describe('Middleware service', () => {
     });
 
     it('runs the middleware in order', () => {
-        expect.assertions(4);
+        expect.assertions(1);
 
-        const request = { method: 'get', param: { test: 2 } };
-        const response = { test: 3 };
+        const request = { method: 'get', param: { test: '' } };
 
-        const middleware = {
-            one: new MiddlewareMock(),
-            two: new MiddlewareMock(),
-        };
+        function getMiddleware(index) {
+            return {
+                onRequest(config) {
+                    config.param.test += `-req${index}-`;
+                    return config;
+                },
+                onResponse(resp) {
+                    resp.data.test += `-resp${index}-`;
+                    return resp;
+                },
+            };
+        }
 
         service.register([
-            middleware.one,
-            middleware.two,
+            getMiddleware(1),
+            getMiddleware(2),
         ]);
 
-        mock.onAny().reply(200, response);
+        mock.onAny().reply(config => [200, config.param]);
 
-        return http(request).then(() => {
-            const oneMocks = middleware.one.mocks;
-            const twoMocks = middleware.two.mocks;
-
-            expect(oneMocks.onRequest).toHaveBeenCalled();
-            expect(twoMocks.onRequest).toHaveBeenCalled();
-
-            expect(oneMocks.onResponse).toHaveBeenCalled();
-            expect(twoMocks.onResponse).toHaveBeenCalled();
+        return http(request).then((response) => {
+            expect(response.data.test).toBe('-req1--req2--resp2--resp1-');
         });
     });
 });
