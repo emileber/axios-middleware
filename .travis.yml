@@ -3,3 +3,5 @@ node_js:
   - node
 notifications:
   email: false
+before_script:
+  - npm run build:dev
