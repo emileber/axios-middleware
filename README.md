@@ -1,7 +1,8 @@
 # axios-middleware
 
 [![Build Status](https://travis-ci.org/emileber/axios-middleware.svg?branch=master)](https://travis-ci.org/emileber/axios-middleware)
-[![devDependency Status](https://david-dm.org/emileber/axios-middleware/dev-status.svg)](https://david-dm.org/emileber/axios-middleware#info=devDependencies)
+[![Dependency Status](https://beta.gemnasium.com/badges/github.com/emileber/axios-middleware.svg)](https://beta.gemnasium.com/projects/github.com/emileber/axios-middleware)
+[![npm version](https://badge.fury.io/js/axios-middleware.svg)](https://www.npmjs.com/package/axios-middleware)
 
 Simple [axios](https://github.com/axios/axios) HTTP middleware service.
 

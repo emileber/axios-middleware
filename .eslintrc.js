@@ -15,6 +15,17 @@ module.exports = {
     ],
     // add your custom rules here
     rules: {
+        'class-methods-use-this': 'off',
+        'comma-dangle': ['error', {
+            'arrays': 'always-multiline',
+            'objects': 'always-multiline',
+            'imports': 'always-multiline',
+            'exports': 'always-multiline',
+            'functions': 'never',
+        }],
+        'indent': ['error', 4, {
+            SwitchCase: 1,
+        }],
         'no-duplicate-imports': 'error',
         // risk only exist with semi-colon auto insertion. Not our case.
         'no-plusplus': 'off',
@@ -23,17 +34,7 @@ module.exports = {
             'allowAfterSuper': true,
             'allowAfterThis': true,
         }],
-        'class-methods-use-this': 'off',
-        'indent': ['error', 4, {
-            SwitchCase: 1,
-        }],
-        'comma-dangle': ['error', {
-            'arrays': 'always-multiline',
-            'objects': 'always-multiline',
-            'imports': 'always-multiline',
-            'exports': 'always-multiline',
-            'functions': 'never',
-        }],
+        'prefer-destructuring': 'off',
         // don't require .js extension when importing
         'import/extensions': ['error', 'always', { js: 'never' }],
         // allow optionalDependencies

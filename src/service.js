@@ -80,7 +80,8 @@ export default class HttpMiddlewareService {
     _onRequest(config) {
         return this.middlewares.reduce(
             (acc, middleware) => (middleware.onRequest ? middleware.onRequest(acc) : acc),
-            config);
+            config
+        );
     }
 
     _onRequestError(error) {
@@ -92,7 +93,8 @@ export default class HttpMiddlewareService {
     _onResponse(response) {
         return this.middlewares.reduceRight(
             (acc, middleware) => (middleware.onResponse ? middleware.onResponse(acc) : acc),
-            response);
+            response
+        );
     }
 
     _onResponseError(error) {
