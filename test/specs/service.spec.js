@@ -73,4 +73,16 @@ describe('Middleware service', () => {
             expect(response.data.test).toBe('-req1--req2--resp2--resp1-');
         });
     });
+
+    it('can catch current request promise', () => {
+        expect.assertions(1);
+        service.register({
+            onSync(promise) {
+                expect(promise).toBeInstanceOf(Promise);
+                return promise;
+            },
+        });
+        mock.onAny().reply(200);
+        return http();
+    });
 });

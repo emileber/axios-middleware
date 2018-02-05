@@ -15,9 +15,18 @@ export default class HttpMiddleware {
 
     /**
      * Default implementation is a noop.
-     * @param error
+     * @param {Object} error
      */
     onRequestError(error) { }
+
+    /**
+     * Default implementation is the identity function.
+     * @param {Promise} promise
+     * @returns {Promise}
+     */
+    onSync(promise) {
+        return promise;
+    }
 
     /**
      * Default implementation is the identity function.
@@ -30,7 +39,7 @@ export default class HttpMiddleware {
 
     /**
      * Default implementation is a noop.
-     * @param error
+     * @param {Object} error
      */
     onResponseError(error) { }
 }

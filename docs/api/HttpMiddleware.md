@@ -18,6 +18,10 @@ Receives the configuration objects before the request is made. Useful to add hea
 
 No internet connection right now? You might end up in this function. Do what you need with the error.
 
+## `onSync(promise)`
+
+The request is being made and its promise is being passed. Do what you want with it but be sure to **return a promise**.
+
 ## `onResponse(response)`
 
 Parsing the response can be done here. Say all responses from your API are returned nested within a `_data` property?
