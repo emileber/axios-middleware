@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { HttpMiddlewareService, HttpMiddleware } from '../../dist/axios-middleware.common';
-// import MiddlewareMock from '../mocks/MiddlewareMock';
+import MiddlewareMock from '../mocks/MiddlewareMock';
 
 const http = axios.create();
 const mock = new MockAdapter(http);
@@ -26,7 +26,25 @@ describe('Middleware service', () => {
         expect(() => service.register(middleware)).toThrow();
     });
 
-    it('runs the middleware in order', () => {
+    it('works with both middleware syntaxes', () => {
+        const middleware = new MiddlewareMock();
+        const simplifiedSyntax = {
+            onRequest: jest.fn(config => config),
+        };
+
+        service.register([
+            middleware,
+            simplifiedSyntax,
+        ]);
+
+        // eslint-disable-next-line no-underscore-dangle
+        service._onRequest();
+
+        expect(middleware.mocks.onRequest).toHaveBeenCalled();
+        expect(simplifiedSyntax.onRequest).toHaveBeenCalled();
+    });
+
+    it('runs the middlewares in order', () => {
         expect.assertions(1);
 
         const request = { method: 'get', param: { test: '' } };
