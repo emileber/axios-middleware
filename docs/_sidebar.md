@@ -1,6 +1,7 @@
 - Introduction
   - [Getting started]()
   - [Installation](installation.md)
+  - [Simplified syntax](simplified-syntax.md)
   
 - API
   - [`HttpMiddleware`](api/HttpMiddleware.md)

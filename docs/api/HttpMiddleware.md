@@ -1,6 +1,6 @@
 # HttpMiddleware
 
-?> This class is optional if you opt to use the short syntax.
+?> This class is optional if you opt to use the [simplified syntax](simplified-syntax.md).
 
 The base implementation to inherit when creating your custom implementation. **Any function is optional** and should be provided within a custom middleware only if needed.
 
