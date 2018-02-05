@@ -26,33 +26,51 @@ describe('Middleware service', () => {
         expect(() => service.register(middleware)).toThrow();
     });
 
-    it('runs the middleware in order', () => {
-        expect.assertions(4);
-
-        const request = { method: 'get', param: { test: 2 } };
-        const response = { test: 3 };
-
-        const middleware = {
-            one: new MiddlewareMock(),
-            two: new MiddlewareMock(),
+    it('works with both middleware syntaxes', () => {
+        const middleware = new MiddlewareMock();
+        const simplifiedSyntax = {
+            onRequest: jest.fn(config => config),
         };
 
         service.register([
-            middleware.one,
-            middleware.two,
+            middleware,
+            simplifiedSyntax,
         ]);
 
-        mock.onAny().reply(200, response);
+        // eslint-disable-next-line no-underscore-dangle
+        service._onRequest();
 
-        return http(request).then(() => {
-            const oneMocks = middleware.one.mocks;
-            const twoMocks = middleware.two.mocks;
+        expect(middleware.mocks.onRequest).toHaveBeenCalled();
+        expect(simplifiedSyntax.onRequest).toHaveBeenCalled();
+    });
 
-            expect(oneMocks.onRequest).toHaveBeenCalled();
-            expect(twoMocks.onRequest).toHaveBeenCalled();
+    it('runs the middlewares in order', () => {
+        expect.assertions(1);
 
-            expect(oneMocks.onResponse).toHaveBeenCalled();
-            expect(twoMocks.onResponse).toHaveBeenCalled();
+        const request = { method: 'get', param: { test: '' } };
+
+        function getMiddleware(index) {
+            return {
+                onRequest(config) {
+                    config.param.test += `-req${index}-`;
+                    return config;
+                },
+                onResponse(resp) {
+                    resp.data.test += `-resp${index}-`;
+                    return resp;
+                },
+            };
+        }
+
+        service.register([
+            getMiddleware(1),
+            getMiddleware(2),
+        ]);
+
+        mock.onAny().reply(config => [200, config.param]);
+
+        return http(request).then((response) => {
+            expect(response.data.test).toBe('-req1--req2--resp2--resp1-');
         });
     });
 });

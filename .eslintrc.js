@@ -18,6 +18,7 @@ module.exports = {
         'no-duplicate-imports': 'error',
         // risk only exist with semi-colon auto insertion. Not our case.
         'no-plusplus': 'off',
+        'no-param-reassign': 'off',
         'no-underscore-dangle': ['error', {
             'allowAfterSuper': true,
             'allowAfterThis': true,
