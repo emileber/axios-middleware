@@ -18,11 +18,11 @@ export default class HttpMiddlewareService {
 
             this._requestInterceptor = interceptors.request.use(
                 config => this._onRequest(config),
-                error => this._handleRequestError(error)
+                error => this._onRequestError(error)
             );
             this._responseInterceptor = interceptors.response.use(
                 response => this._onResponse(response),
-                error => this._handleResponseError(error)
+                error => this._onResponseError(error)
             );
         }
         return this;
@@ -83,9 +83,9 @@ export default class HttpMiddlewareService {
             config);
     }
 
-    _handleRequestError(error) {
-        this.middlewares.forEach(middleware => middleware.handleRequestError &&
-            middleware.handleRequestError(error));
+    _onRequestError(error) {
+        this.middlewares.forEach(middleware => middleware.onRequestError &&
+            middleware.onRequestError(error));
         return Promise.reject(error);
     }
 
@@ -95,10 +95,10 @@ export default class HttpMiddlewareService {
             response);
     }
 
-    _handleResponseError(error) {
+    _onResponseError(error) {
         for (let i = this.middlewares.length; i--;) {
             const middleware = this.middlewares[i];
-            if (middleware.handleResponseError) middleware.handleResponseError(error);
+            if (middleware.onResponseError) middleware.onResponseError(error);
         }
         return Promise.reject(error);
     }

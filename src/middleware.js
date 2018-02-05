@@ -17,7 +17,7 @@ export default class HttpMiddleware {
      * Default implementation is a noop.
      * @param error
      */
-    handleRequestError(error) { }
+    onRequestError(error) { }
 
     /**
      * Default implementation is the identity function.
@@ -32,5 +32,5 @@ export default class HttpMiddleware {
      * Default implementation is a noop.
      * @param error
      */
-    handleResponseError(error) { }
+    onResponseError(error) { }
 }

@@ -5,9 +5,9 @@ export default class MiddlewareMock extends HttpMiddleware {
         super();
         this.mocks = {
             onRequest: jest.fn(),
-            handleRequestError: jest.fn(),
+            onRequestError: jest.fn(),
             onResponse: jest.fn(),
-            handleResponseError: jest.fn(),
+            onResponseError: jest.fn(),
         };
     }
 
@@ -16,8 +16,8 @@ export default class MiddlewareMock extends HttpMiddleware {
         return config;
     }
 
-    handleRequestError(error) {
-        this.mocks.handleRequestError(error);
+    onRequestError(error) {
+        this.mocks.onRequestError(error);
     }
 
     onResponse(response) {
@@ -25,7 +25,7 @@ export default class MiddlewareMock extends HttpMiddleware {
         return response;
     }
 
-    handleResponseError(error) {
-        this.mocks.handleResponseError(error);
+    onResponseError(error) {
+        this.mocks.onResponseError(error);
     }
 }
