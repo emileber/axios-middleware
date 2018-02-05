@@ -11,40 +11,33 @@ There are two classes exposed in this module:
 
 It works with either the global axios or a local instance.
 
-## Creating your middleware
+## Examples
 
-Here's a simple example of a locale middleware who sets a language header on each AJAX request.
+All examples are written using ES6 syntax but you can definitely use this plugin with ES5 code, even directly in the browser.
 
-```javascript
-import { HttpMiddleware } from 'axios-middleware';
+### Simplest use-case
 
-export default class ErrorMiddleware extends HttpMiddleware {
-    handleResponseError(error) {
-        console.log("Handling:", error);
-    }
-}
-```
+?> A common use-case would be to expose an instance of the service which consumes an _axios_ instance configured for an API. It's then possible to register middlewares for this API at different stages of the initialization process of an application.
 
-## Using the service
-
-Simplest use-case:
 
 ```javascript
 import axios from 'axios';
 import { HttpMiddlewareService } from 'axios-middleware';
-import i18n from './i18n';
-import { LocaleMiddleware, OtherMiddleware } from './middlewares';
 
 // Create a new service instance
 const service = new HttpMiddlewareService(axios);
 
 // Then register your middleware instances.
-service.register([
-    new LocaleMiddleware(i18n),
-    new OtherMiddleware()
-]);
+service.register({
+    onRequest() {
+        // handle the request
+    },
+    onResponseError(error) {
+        // handle the response error
+    }
+});
 
 // We're good to go!
+export default { service };
 ```
 
-A common use-case would be to expose an instance of the service which consumes an _axios_ instance configured for an API. It's then possible to register middlewares for this API at different stages of the initialization process of an application.

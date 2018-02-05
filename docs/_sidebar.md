@@ -1,7 +1,16 @@
 - Introduction
   - [Getting started]()
   - [Installation](installation.md)
-  - [Examples](examples.md)
+  
+- API
+  - [`HttpMiddleware`](api/HttpMiddleware.md)
+  - [`HttpMiddlewareService`](api/HttpMiddlewareService.md)
+
+- Examples
+  - [Locale middleware](examples/locale-middleware.md)
+  - [Service module](examples/service.md)
+  - [ES5 usage](examples/es5.md)
+  - [Browser usage](examples/browser.md)
 
 - Ecosystem
   - [Github](https://github.com/emileber/axios-middleware)
