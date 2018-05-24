@@ -7,7 +7,7 @@ const version = process.env.VERSION || pkg.version;
 const name = 'axios-middleware';
 const banner =
     `/**
- * axios-middleware v${version}
+ * ${name} v${version}
  * (c) ${new Date().getFullYear()} Émile Bergeron
  * @license MIT
  */`;

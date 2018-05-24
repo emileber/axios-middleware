@@ -14,7 +14,7 @@ module.exports = {
     //     '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
     // },
     // setupFiles: ['<rootDir>/test/setup'],
-    mapCoverage: true,
+    // mapCoverage: true,
     coverageDirectory: '<rootDir>/test/coverage',
     collectCoverageFrom: [
         'src/**/*.js',

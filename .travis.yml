@@ -3,5 +3,10 @@ node_js:
   - node
 notifications:
   email: false
+install:
+  - npm ci
 before_script:
   - npm run build:dev
+cache:
+  directories:
+    - "$HOME/.npm"

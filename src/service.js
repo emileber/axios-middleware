@@ -1,6 +1,6 @@
 /**
  * @property {Array} middlewares stack
- * @property {Axios} http
+ * @property {AxiosInstance} http
  * @property {Function} originalAdapter
  * @property {Number} _requestInterceptor
  * @property {Number} _responseInterceptor
@@ -13,7 +13,7 @@ export default class HttpMiddlewareService {
     }
 
     /**
-     * @param {Axios} axios
+     * @param {AxiosInstance} axios
      * @returns {HttpMiddlewareService}
      */
     setHttp(axios) {
