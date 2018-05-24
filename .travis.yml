@@ -3,6 +3,8 @@ node_js:
   - node
 notifications:
   email: false
+before_install:
+  - npm i -g npm@6.0.1
 install:
   - npm ci
 before_script:
