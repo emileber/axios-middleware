@@ -40,7 +40,7 @@ describe('Middleware service', () => {
         // eslint-disable-next-line no-underscore-dangle
         service._onRequest();
 
-        expect(middleware.mocks.onRequest).toHaveBeenCalled();
+        expect(middleware.onRequest).toHaveBeenCalled();
         expect(simplifiedSyntax.onRequest).toHaveBeenCalled();
     });
 

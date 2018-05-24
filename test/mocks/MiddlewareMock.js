@@ -3,29 +3,12 @@ import { HttpMiddleware } from '../../dist/axios-middleware.common';
 export default class MiddlewareMock extends HttpMiddleware {
     constructor() {
         super();
-        this.mocks = {
-            onRequest: jest.fn(),
+        Object.assign(this, {
+            onRequest: jest.fn(config => config),
             onRequestError: jest.fn(),
-            onResponse: jest.fn(),
+            onSync: jest.fn(promise => promise),
+            onResponse: jest.fn(response => response),
             onResponseError: jest.fn(),
-        };
-    }
-
-    onRequest(config) {
-        this.mocks.onRequest(config);
-        return config;
-    }
-
-    onRequestError(error) {
-        this.mocks.onRequestError(error);
-    }
-
-    onResponse(response) {
-        this.mocks.onResponse(response);
-        return response;
-    }
-
-    onResponseError(error) {
-        this.mocks.onResponseError(error);
+        });
     }
 }
