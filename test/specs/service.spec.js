@@ -30,10 +30,7 @@ describe('Middleware service', () => {
         expect.assertions(2);
         const middleware = new MiddlewareMock();
         const simplifiedSyntax = {
-            onRequest: jest.fn((config) => {
-                console.log('simplifiedSyntax');
-                return config;
-            }),
+            onRequest: jest.fn(config => config),
         };
 
         service.register([
