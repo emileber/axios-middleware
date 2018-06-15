@@ -10,6 +10,7 @@
 - Examples
   - [Locale middleware](examples/locale-middleware.md)
   - [Service module](examples/service.md)
+  - [Returning promises](examples/promise.md)
   - [ES5 usage](examples/es5.md)
   - [Browser usage](examples/browser.md)
 

@@ -6,8 +6,8 @@ Simple [axios](https://github.com/axios/axios) HTTP middleware service to simpli
 
 There are two classes exposed in this module:
 
-- `HttpMiddleware`: the base class to extend from when creating your own middleware.
-- `HttpMiddlewareService` which manages the middleware stack and the hooking into the passed axios.
+- [`HttpMiddleware`](api/HttpMiddleware.md): the base class to extend from when creating your own middleware.
+- [`HttpMiddlewareService`](api/HttpMiddlewareService.md) which manages the middleware stack and the hooking into the passed axios.
 
 It works with either the global axios or a local instance.
 
@@ -30,11 +30,17 @@ const service = new HttpMiddlewareService(axios);
 
 // Then register your middleware instances.
 service.register({
-    onRequest() {
-        // handle the request
+    onRequest(config) {
+        // handle the request config
+        return config;
     },
-    onResponseError(error) {
-        // handle the response error
+    onSync(promise) {
+        // handle the promsie
+        return promise;
+    },
+    onResponse(response) {
+        // handle the response
+        return response;
     }
 });
 

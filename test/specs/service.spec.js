@@ -27,6 +27,7 @@ describe('Middleware service', () => {
     });
 
     it('works with both middleware syntaxes', () => {
+        expect.assertions(2);
         const middleware = new MiddlewareMock();
         const simplifiedSyntax = {
             onRequest: jest.fn(config => config),
@@ -37,11 +38,10 @@ describe('Middleware service', () => {
             simplifiedSyntax,
         ]);
 
-        // eslint-disable-next-line no-underscore-dangle
-        service._onRequest();
-
-        expect(middleware.mocks.onRequest).toHaveBeenCalled();
-        expect(simplifiedSyntax.onRequest).toHaveBeenCalled();
+        service.adapter().then(() => {
+            expect(middleware.onRequest).toHaveBeenCalled();
+            expect(simplifiedSyntax.onRequest).toHaveBeenCalled();
+        });
     });
 
     it('runs the middlewares in order', () => {
@@ -70,7 +70,57 @@ describe('Middleware service', () => {
         mock.onAny().reply(config => [200, config.param]);
 
         return http(request).then((response) => {
-            expect(response.data.test).toBe('-req1--req2--resp2--resp1-');
+            expect(response.data.test).toBe('-req2--req1--resp1--resp2-');
+        });
+    });
+
+    it('can catch current request promise', () => {
+        expect.assertions(1);
+        service.register({
+            onSync(promise) {
+                expect(promise).toBeInstanceOf(Promise);
+                return promise;
+            },
+        });
+        mock.onAny().reply(200);
+        return http();
+    });
+
+    it('can return a promise for async config and response handling', () => {
+        expect.assertions(1);
+
+        const request = { method: 'get', param: { test: '' } };
+
+        function getMiddleware(index) {
+            return {
+                onRequest(config) {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            config.param.test += `-req${index}-`;
+                            resolve(config);
+                        }, 0);
+                    });
+                },
+                onResponse(resp) {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            resp.data.test += `-resp${index}-`;
+                            resolve(resp);
+                        }, 0);
+                    });
+                },
+            };
+        }
+
+        service.register([
+            getMiddleware(1),
+            getMiddleware(2),
+        ]);
+
+        mock.onAny().reply(config => [200, config.param]);
+
+        return http(request).then((response) => {
+            expect(response.data.test).toBe('-req2--req1--resp1--resp2-');
         });
     });
 });
