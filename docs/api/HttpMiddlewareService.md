@@ -1,6 +1,6 @@
 # HttpMiddlewareService
 
-This is the heart of this plugin module. It works by leveraging axios interceptors and the default adapter to call its middleware stack at each relevant steps of a request.
+This is the heart of this plugin module. It works by leveraging axios' adapter to call its middleware stack at each relevant steps of a request.
 
 ## `constructor(axios)`
 
@@ -16,11 +16,11 @@ Sets or replaces the axios instance on which to intercept the requests and respo
 
 Removes the registered interceptors on the axios instance, if any were set.
 
-!> Be aware that changing the default adapter after the middleware service was initialized, then calling `unsetHttp` or `setHttp` will set the default adapter back in the axios instance. Any adapter used after will be lost.
+!> Be aware that changing the default adapter after the middleware service was initialized, then calling `unsetHttp` or `setHttp` will set the default adapter back in the axios instance. Any adapter used after could be lost.
 
 ## `has(middleware)`
 
-Returns `true` is the passed `middleware` instance is within the stack.
+Returns `true` if the passed `middleware` instance is within the stack.
 
 ## `register(middlewares)`
 
@@ -40,5 +40,5 @@ Empty the middleware stack.
 
 ## `adapter(config)`
 
-The adapter function that replaces the default axios adapter. It calls the default implementation and passes the resulting promise to the middleware stack.
+The adapter function that replaces the default axios adapter. It calls the default implementation and passes the resulting promise to the middleware stack's `onSync` method.
 
