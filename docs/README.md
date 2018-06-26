@@ -11,6 +11,18 @@ There are two classes exposed in this module:
 
 It works with either the global axios or a local instance.
 
+## Why not use interceptors?
+
+Using axios interceptors makes the code tightly coupled to axios and harder to test.
+
+This middleware service module:
+
+- offers more functionalities (e.g. see [`onSync`](api/HttpMiddleware?id=onsyncpromise))
+- looser coupling to axios
+- really easy to test middleware classes
+
+It improves readability and reusability.
+
 ## Examples
 
 All examples are written using ES6 syntax but you can definitely use this plugin with ES5 code, even directly in the browser.
@@ -45,6 +57,6 @@ service.register({
 });
 
 // We're good to go!
-export default { service };
+export default service;
 ```
 
