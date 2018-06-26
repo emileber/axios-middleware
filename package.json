@@ -42,7 +42,7 @@
         "http"
     ],
     "peerDependencies": {
-        "axios": ">= 0.18.0"
+        "axios": ">= 0.17.1"
     },
     "devDependencies": {
         "axios": "^0.17.1",
