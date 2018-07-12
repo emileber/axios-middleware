@@ -13,6 +13,7 @@
   - [Returning promises](examples/promise.md)
   - [ES5 usage](examples/es5.md)
   - [Browser usage](examples/browser.md)
+  - [Testing a middleware](examples/testing.md)
 
 - Ecosystem
   - [Github](https://github.com/emileber/axios-middleware)
