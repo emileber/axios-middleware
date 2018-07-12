@@ -34,9 +34,9 @@ The following example is using the [simplified syntax](simplified-syntax.md).
 
 ```javascript
 import axios from 'axios';
-import { HttpMiddlewareService } from 'axios-middleware';
+import { Service } from 'axios-middleware';
 
-const service = new HttpMiddlewareService(axios);
+const service = new Service(axios);
 
 service.register({
     onRequest(config) {
@@ -70,4 +70,4 @@ onResponse
 Received: {userId: 1, id: 1, title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", body: "quia et suscipit↵suscipit recusandae consequuntur …strum rerum est autem sunt rem eveniet architecto"}
 ```
 
-[**Demo snippet**](https://jsfiddle.net/emileber/sfqo0rt1/)
+[**Demo snippet**](https://jsfiddle.net/emileber/sfqo0rt1/5/)
