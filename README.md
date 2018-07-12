@@ -5,8 +5,6 @@
 
 Simple [axios](https://github.com/axios/axios) HTTP middleware service.
 
-Explore [**the documentation**](https://emileber.github.io/axios-middleware/).
-
 ## Installation
 
 ```
@@ -15,34 +13,4 @@ npm install --save axios-middleware
 
 ## How to use
 
-A simple example using the [simplified middleware syntax](https://emileber.github.io/axios-middleware/#/simplified-syntax).
-
-```javascript
-import axios from 'axios';
-import { HttpMiddlewareService } from 'axios-middleware';
-
-// Create a new service instance
-const service = new HttpMiddlewareService(axios);
-
-// Then register your middleware instances.
-service.register({
-    onRequest(config) {
-        // handle the request config
-        return config;
-    },
-    onSync(promise) {
-        // handle the promsie
-        return promise;
-    },
-    onResponse(response) {
-        // handle the response
-        return response;
-    }
-});
-
-// We're good to go!
-export default service;
-```
-
-A common use-case would be to expose an instance of the service which consumes an _axios_ instance configured for an API. It's then possible to register middlewares for this API at different stages of the initialization process of an application.
-
+Explore [**the documentation**](https://emileber.github.io/axios-middleware/) or the `docs/` directory.
