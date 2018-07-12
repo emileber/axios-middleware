@@ -1,12 +1,8 @@
-# HttpMiddleware
+# The middleware methods
 
-?> This class is optional if you opt to use the [simplified syntax](simplified-syntax.md).
+These will be called at different step of a request lifecycle. Each method can return a promise which will be resolved or reject before continuing through the middleware stack.
 
-The base implementation to inherit when creating your custom implementation. **Any function is optional** and should be provided within a custom middleware only if needed.
-
-## `constructor`
-
-The constructor isn't used in the default middleware, leaving it totally available to the child classes. Very useful to pass any relevant services your middleware might need, like [the `i18n` service in our example](examples/locale-middleware.md).
+?> **Any function is optional** and should be provided within a custom middleware only if needed.
 
 ## `onRequest(config)`
 
@@ -36,7 +32,7 @@ onResponse(response) {
 }
 ```
 
-!> The original `response` object, _a new one_, or a promise should be returned.
+!> The original `response` object, or _a new/modified one_, or a promise should be returned.
 
 ## `onResponseError(error)`
 

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { HttpMiddlewareService, HttpMiddleware } from '../../dist/axios-middleware.common';
+import { Service } from '../../dist/axios-middleware.common';
 import MiddlewareMock from '../mocks/MiddlewareMock';
 
 const http = axios.create();
 const mock = new MockAdapter(http);
 
 describe('Middleware service', () => {
-    const service = new HttpMiddlewareService(http);
+    const service = new Service(http);
 
     afterEach(() => {
         mock.reset();
@@ -19,7 +19,7 @@ describe('Middleware service', () => {
     });
 
     it('throws when adding the same middleware instance', () => {
-        const middleware = new HttpMiddleware();
+        const middleware = {};
 
         service.register(middleware);
 

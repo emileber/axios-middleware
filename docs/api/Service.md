@@ -1,6 +1,6 @@
-# HttpMiddlewareService
+# Middleware `Service` class
 
-This is the heart of this plugin module. It works by leveraging axios' adapter to call its middleware stack at each relevant steps of a request.
+This is the heart of this plugin module. It works by leveraging axios' adapter to call its middleware stack at each relevant steps of a request lifecycle.
 
 ## `constructor(axios)`
 
@@ -26,7 +26,7 @@ Returns `true` if the passed `middleware` instance is within the stack.
 
 Adds a middleware instance or an array of middlewares to the stack.
 
-You can pass an `HttpMiddleware` instance or a simple object implementing only the functions you need (see the [simplified syntax](simplified-syntax.md)).
+You can pass a class instance or a simple object implementing only the functions you need (see the [simplified syntax](simplified-syntax.md)).
 
 !> Throws an error if a middleware instance is already within the stack.
 

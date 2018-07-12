@@ -1,8 +1,5 @@
-import { HttpMiddleware } from '../../dist/axios-middleware.common';
-
-export default class MiddlewareMock extends HttpMiddleware {
+export default class MiddlewareMock {
     constructor() {
-        super();
         Object.assign(this, {
             onRequest: jest.fn(config => config),
             onRequestError: jest.fn(),

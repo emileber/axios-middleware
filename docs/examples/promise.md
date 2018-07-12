@@ -3,11 +3,8 @@
 In a case where we'd like to retry a request if not authenticated, we could return a promise in the `onResponseError` method.
 
 ```javascript
-import { HttpMiddleware } from 'axios-middleware';
-
-export default class AuthMiddleware extends HttpMiddleware {
+export default class AuthMiddleware {
     constructor(auth, http) {
-        super();
         this.auth = auth;
         this.http = http;
     }

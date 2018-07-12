@@ -3,11 +3,8 @@
 Here's a simple example of a locale middleware who sets a language header on each AJAX request.
 
 ```javascript
-import { HttpMiddleware } from 'axios-middleware';
-
-export default class LocaleMiddleware extends HttpMiddleware {
+export default class LocaleMiddleware {
     constructor(i18n) {
-        super();
         this.i18n = i18n;
     }
     
