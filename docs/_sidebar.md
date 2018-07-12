@@ -4,8 +4,8 @@
   - [Simplified syntax](simplified-syntax.md)
   
 - API
-  - [`HttpMiddleware`](api/HttpMiddleware.md)
-  - [`HttpMiddlewareService`](api/HttpMiddlewareService.md)
+  - [Middleware methods](api/methods.md)
+  - [`Service` class](api/Service.md)
 
 - Examples
   - [Locale middleware](examples/locale-middleware.md)

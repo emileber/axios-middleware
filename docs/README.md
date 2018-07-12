@@ -1,13 +1,12 @@
 # Axios HTTP middleware service
 
-Simple [axios](https://github.com/axios/axios) HTTP middleware service to simplify hooking to HTTP requests made through Axios.
+Simple [axios](https://github.com/axios/axios) HTTP middleware service to simplify hooking (and testing of hooks) to HTTP requests made through Axios.
 
 ## What's this?
 
-There are two classes exposed in this module:
+A [`HttpMiddlewareService`](api/Service.md) which manages a middleware stack and hooking itself to an axios instance.
 
-- [`HttpMiddleware`](api/HttpMiddleware.md): the base class to extend from when creating your own middleware.
-- [`HttpMiddlewareService`](api/HttpMiddlewareService.md) which manages the middleware stack and the hooking into the passed axios.
+Middlewares are just objects or classes composed of simple methods for different points in a request lifecycle.
 
 It works with either the global axios or a local instance.
 
@@ -17,11 +16,11 @@ Using axios interceptors makes the code tightly coupled to axios and harder to t
 
 This middleware service module:
 
-- offers more functionalities (e.g. see [`onSync`](api/HttpMiddleware?id=onsyncpromise))
+- offers more functionalities (e.g. see [`onSync`](api/methods?id=onsyncpromise))
 - looser coupling to axios
 - really easy to test middleware classes
 
-It improves readability and reusability.
+It improves readability and reusability in a centralized hooking strategy.
 
 ## Examples
 
@@ -37,26 +36,38 @@ The following example is using the [simplified syntax](simplified-syntax.md).
 import axios from 'axios';
 import { HttpMiddlewareService } from 'axios-middleware';
 
-// Create a new service instance
 const service = new HttpMiddlewareService(axios);
 
-// Then register your middleware instances.
 service.register({
     onRequest(config) {
-        // handle the request config
+        console.log('onRequest');
         return config;
     },
     onSync(promise) {
-        // handle the promsie
+		console.log('onSync');
         return promise;
     },
     onResponse(response) {
-        // handle the response
+        console.log('onResponse');
         return response;
     }
 });
 
-// We're good to go!
-export default service;
+console.log('Ready to fetch.');
+
+// Just use axios like you would normally.
+axios('https://jsonplaceholder.typicode.com/posts/1')
+  .then(({ data }) => console.log('Received:', data));
 ```
 
+It should output:
+
+```
+Ready to fetch.
+onRequest
+onSync
+onResponse
+Received: {userId: 1, id: 1, title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", body: "quia et suscipit↵suscipit recusandae consequuntur …strum rerum est autem sunt rem eveniet architecto"}
+```
+
+[**Demo snippet**](https://jsfiddle.net/emileber/sfqo0rt1/)

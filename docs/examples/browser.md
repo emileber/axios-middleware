@@ -39,20 +39,18 @@ var app = app || {};
 /**
 * Custom Middleware class
 */
-app.MyMiddleware = (function(HttpMiddleware){
+app.MyMiddleware = (function(){
     function MyMiddleware() {
-        // call the parent constructor
-        HttpMiddleware.apply(this, arguments);
     }
     
-    var proto = MyMiddleware.prototype = Object.create(HttpMiddleware.prototype);
+    var proto = MyMiddleware.prototype = Object.create();
     
     proto.constructor = MyMiddleware;
     proto.onRequest = function(config) {
       // handle the request
     };
     return MyMiddleware;
-})(AxiosMiddleware.HttpMiddleware);
+})();
 ```
 
 Then register these middlewares with a newly created `HttpMiddlewareService` instance.
@@ -64,15 +62,15 @@ var app = app || {};
 /**
 * Middleware Service
 */
-app.MiddlewareService = (function(HttpMiddlewareService, MyMiddleware) {
+app.MiddlewareService = (function(MiddlewareService, MyMiddleware) {
     // Create a new service instance
-    var service = new HttpMiddlewareService(axios);
+    var service = new MiddlewareService(axios);
     
     // Then register your middleware instances.
     service.register(new MyMiddleware());
     
     return service;
-})(AxiosMiddleware.HttpMiddlewareService, app.MyMiddleware);
+})(AxiosMiddleware.Service, app.MyMiddleware);
 ```
 
 In this case, the order in which to import the JS files is important.
