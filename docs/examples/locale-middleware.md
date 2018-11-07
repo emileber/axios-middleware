@@ -10,8 +10,9 @@ export default class LocaleMiddleware {
     
     onRequest(config) {
         config.headers = {
-            locale: this.i18n.lang,
-            ...config.headers
+            ...config.headers,
+            locale: this.i18n.lang
+
         };
         return config;
     }
