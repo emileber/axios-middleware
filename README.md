@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/emileber/axios-middleware.svg?branch=master)](https://travis-ci.org/emileber/axios-middleware)
 [![npm version](https://badge.fury.io/js/axios-middleware.svg)](https://www.npmjs.com/package/axios-middleware)
+[![Coverage Status](https://coveralls.io/repos/github/emileber/axios-middleware/badge.svg?branch=master)](https://coveralls.io/github/emileber/axios-middleware?branch=master)
+
+>>>>>>> a9525b8... Set remotes back to emileber
 
 Simple [axios](https://github.com/axios/axios) HTTP middleware service.
 
