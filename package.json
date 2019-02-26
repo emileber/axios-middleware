@@ -48,6 +48,7 @@
         "axios": "^0.17.1",
         "axios-mock-adapter": "^1.15.0",
         "babel-preset-env": "^1.7.0",
+        "coveralls": "^3.0.3",
         "cross-env": "^5.1.6",
         "docsify-cli": "^4.2.1",
         "eslint": "^4.19.1",
