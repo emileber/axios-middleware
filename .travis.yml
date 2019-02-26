@@ -9,6 +9,8 @@ install:
   - npm ci
 before_script:
   - npm run build:dev
+script:
+  - npm run test:codecov
 cache:
   directories:
     - "$HOME/.npm"
