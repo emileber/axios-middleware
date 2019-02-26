@@ -20,9 +20,10 @@
         "build:dev": "rollup -c build/rollup.dev.config.js",
         "build:lint-config": "eslint -c .eslintrc.js --print-config .eslintrc.js > .eslintrc.json",
         "release": "bash build/release.sh",
-        "test": "npm run lint && npm run test:unit",
+        "test": "npm run lint && npm run test:unit && npm run coveralls",
         "test:unit": "npm run build:dev && jest --config test/jest.conf.js",
         "test:coverage": "npm run test:unit -- --coverage",
+        "coveralls": "npm run test:coverage && cat ./tests/coverage/lcov.info | coveralls",
         "lint": "eslint src test build",
         "docs": "docsify serve ./docs"
     },
