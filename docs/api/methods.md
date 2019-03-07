@@ -16,6 +16,8 @@ No internet connection right now? You might end up in this function. Do what you
 
 You can return a promise, or throw another error to keep the middleware chain going.
 
+!> Returning a promise will **abort the current `onRequestError` chain** and process it as a new request.
+
 ## `onSync(promise)`
 
 The request is being made and its promise is being passed. Do what you want with it but be sure to **return a promise**, be it the one just received or a new one.
