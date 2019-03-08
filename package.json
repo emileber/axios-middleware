@@ -1,68 +1,68 @@
 {
-    "name": "axios-middleware",
-    "version": "0.3.1",
-    "description": "Simple axios HTTP middleware service",
-    "author": "Emile Bergeron <ber.emile@prismalstudio.com>",
-    "license": "MIT",
-    "main": "dist/axios-middleware.common.js",
-    "module": "dist/axios-middleware.esm.js",
-    "unpkg": "dist/axios-middleware.js",
-    "bugs": {
-        "url": "https://github.com/emileber/axios-middleware/issues"
-    },
-    "homepage": "https://emileber.github.io/axios-middleware/#/",
-    "scripts": {
-        "clean": "rimraf dist",
-        "prebuild": "npm run clean",
-        "prepush": "npm run lint",
-        "prepublishOnly": "npm run build",
-        "build": "node build/build.main.js",
-        "build:dev": "rollup -c build/rollup.dev.config.js",
-        "build:lint-config": "eslint -c .eslintrc.js --print-config .eslintrc.js > .eslintrc.json",
-        "release": "bash build/release.sh",
-        "test": "npm run lint && npm run test:unit",
-        "test:unit": "npm run build:dev && jest --config test/jest.conf.js",
-        "test:coverage": "npm run test:unit -- --coverage",
-        "test:codecov": "npm run test:coverage && codecov",
-        "lint": "eslint src test build",
-        "docs": "docsify serve ./docs"
-    },
-    "files": [
-        "dist"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/emileber/axios-middleware.git"
-    },
-    "keywords": [
-        "axios",
-        "request",
-        "adapter",
-        "middleware",
-        "response",
-        "http"
-    ],
-    "peerDependencies": {
-        "axios": ">= 0.17.1"
-    },
-    "devDependencies": {
-        "axios": "^0.17.1",
-        "axios-mock-adapter": "^1.15.0",
-        "babel-preset-env": "^1.7.0",
-        "codecov": "^3.2.0",
-        "cross-env": "^5.1.6",
-        "docsify-cli": "^4.2.1",
-        "eslint": "^4.19.1",
-        "eslint-config-airbnb-base": "^12.1.0",
-        "eslint-friendly-formatter": "^3.0.0",
-        "eslint-loader": "^1.9.0",
-        "eslint-plugin-import": "^2.12.0",
-        "husky": "^0.14.3",
-        "jest": "^23.0.0",
-        "rimraf": "^2.6.2",
-        "rollup": "^0.55.3",
-        "rollup-plugin-buble": "^0.19.2",
-        "rollup-plugin-replace": "^2.0.0",
-        "uglify-js": "^3.3.27"
-    }
+  "name": "axios-middleware",
+  "version": "0.3.1",
+  "description": "Simple axios HTTP middleware service",
+  "author": "Emile Bergeron <ber.emile@prismalstudio.com>",
+  "license": "MIT",
+  "main": "dist/axios-middleware.common.js",
+  "module": "dist/axios-middleware.esm.js",
+  "unpkg": "dist/axios-middleware.js",
+  "bugs": {
+    "url": "https://github.com/emileber/axios-middleware/issues"
+  },
+  "homepage": "https://emileber.github.io/axios-middleware/#/",
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepush": "npm run lint",
+    "prepublishOnly": "npm run build",
+    "build": "node build/build.main.js",
+    "build:dev": "rollup -c build/rollup.dev.config.js",
+    "build:lint-config": "eslint -c .eslintrc.js --print-config .eslintrc.js > .eslintrc.json",
+    "release": "bash build/release.sh",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "npm run build:dev && jest --config test/jest.conf.js",
+    "test:coverage": "npm run test:unit -- --coverage",
+    "test:codecov": "npm run test:coverage && codecov",
+    "lint": "eslint ./",
+    "docs": "docsify serve ./docs"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emileber/axios-middleware.git"
+  },
+  "keywords": [
+    "axios",
+    "request",
+    "adapter",
+    "middleware",
+    "response",
+    "http"
+  ],
+  "peerDependencies": {
+    "axios": ">= 0.17.1"
+  },
+  "devDependencies": {
+    "axios": "^0.17.1",
+    "axios-mock-adapter": "^1.15.0",
+    "babel-preset-env": "^1.7.0",
+    "codecov": "^3.2.0",
+    "cross-env": "^5.1.6",
+    "docsify-cli": "^4.2.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.12.0",
+    "husky": "^0.14.3",
+    "jest": "^23.0.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.55.3",
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-replace": "^2.0.0",
+    "uglify-js": "^3.3.27"
+  }
 }

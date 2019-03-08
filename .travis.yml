@@ -10,6 +10,7 @@ install:
 before_script:
   - npm run build:dev
 script:
+  - npm run lint
   - npm run test:codecov
 cache:
   directories:
