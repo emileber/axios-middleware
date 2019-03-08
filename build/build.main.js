@@ -31,15 +31,18 @@ function buildEntry({ input, output }) {
   const isProd = /min\.js$/.test(output.file);
   return rollup.rollup(input)
     .then(bundle => bundle.generate(output))
-    .then(({ code }) => {
+    .then(({ output: codeOutput }) => Promise.all(codeOutput.map((chunk) => {
+      if (chunk.isAsset) {
+        throw Error('Asset found in generated output.');
+      }
       if (isProd) {
-        const minified = (output.banner ? output.banner + '\n' : '') + uglify.minify(code, {
+        const minified = (output.banner ? output.banner + '\n' : '') + uglify.minify(chunk.code, {
           output: { ascii_only: true },
         }).code;
         return write(output.file, minified, true);
       }
-      return write(output.file, code);
-    });
+      return write(output.file, chunk.code);
+    })));
 }
 
 function write(dest, code, zip) {
