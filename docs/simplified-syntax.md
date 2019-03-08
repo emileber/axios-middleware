@@ -4,9 +4,9 @@ Instead of creating a class, you can use a simple object literal only implementi
 
 ```javascript
 service.register({
-    onRequest(config) {
-        // handle the request
-        return config;
-    }
+  onRequest(config) {
+    // handle the request
+    return config;
+  }
 });
 ```
