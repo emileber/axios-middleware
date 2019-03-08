@@ -1,6 +1,6 @@
 import Service from './service';
 
 export default {
-    Service,
-    version: '__VERSION__',
+  Service,
+  version: '__VERSION__',
 };
