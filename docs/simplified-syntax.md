@@ -6,6 +6,7 @@ Instead of creating a class, you can use a simple object literal only implementi
 service.register({
     onRequest(config) {
         // handle the request
+        return config;
     }
 });
 ```

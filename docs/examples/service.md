@@ -11,8 +11,8 @@ const service = new Service(axios);
 
 // Then register your middleware instances.
 service.register([
-    new LocaleMiddleware(i18n),
-    new OtherMiddleware()
+  new LocaleMiddleware(i18n),
+  new OtherMiddleware()
 ]);
 
 export default service;

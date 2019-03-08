@@ -1,6 +1,6 @@
 # Middleware `Service` class
 
-This is the heart of this plugin module. It works by leveraging axios' adapter to call its middleware stack at each relevant steps of a request lifecycle.
+This is the heart of this plugin module. It works by leveraging axios' adapter to call the middleware stack at each relevant steps of a request lifecycle.
 
 ## `constructor(axios)`
 
@@ -41,4 +41,3 @@ Empty the middleware stack.
 ## `adapter(config)`
 
 The adapter function that replaces the default axios adapter. It calls the default implementation and passes the resulting promise to the middleware stack's `onSync` method.
-

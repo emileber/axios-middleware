@@ -8,8 +8,8 @@ Create a custom middleware to register.
 var BaseMiddleware = require('./base-middleware');
 
 function MyMiddleware() {
-    // call the parent constructor
-    BaseMiddleware.apply(this, arguments);
+  // call the parent constructor
+  BaseMiddleware.apply(this, arguments);
 }
 
 // Prototype wiring
@@ -19,6 +19,7 @@ proto.constructor = MyMiddleware;
 // Method overriding
 proto.onRequest = function(config) {
   // handle the request
+  return config;
 };
 
 module.exports = MyMiddleware;
@@ -39,4 +40,3 @@ service.register(new MyMiddleware());
 
 module.exports = service;
 ```
-

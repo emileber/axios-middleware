@@ -1,30 +1,26 @@
 # Returning promises
 
-In a case where we'd like to retry a request if not authenticated, we could return a promise in the `onResponseError` method.
+Every method of our middleware are promise callback functions, meaning that they can return either a value, a new promise or throw an error and the middleware chain will react accordingly.
 
 ```javascript
-export default class AuthMiddleware {
-    constructor(auth, http) {
-        this.auth = auth;
-        this.http = http;
+export default class DemoPromiseMiddleware {
+  onRequest(config) {
+    return asyncChecks().then(() => config);
+  }
+
+  onResponseError({ config } = {}) {
+    if (config && !config.hasRetriedRequest) {
+      // Retrying the request
+      return this.http({
+        ...config,
+        hasRetriedRequest: true,
+      })
+      .catch(function (error) {
+        console.log('Retry failed:', error);
+        throw error;
+      });
     }
-    
-    onResponseError(err) {
-        if (err.response.status === 401 && err.config && !err.config.hasRetriedRequest) {
-            return this.auth()
-            .then(function (token) {
-                err.config.hasRetriedRequest = true;
-                err.config.headers.Authorization = `Bearer ${token}`;
-                
-                // Retrying the request now that we're authenticated.
-                return this.http(err.config);
-            })
-            .catch(function (error) {
-                console.log('Refresh login error: ', error);
-                throw error;
-            });
-        }
-        throw err;
-    }
+    throw err;
+  }
 }
 ```

@@ -2,12 +2,13 @@
   - [Getting started]()
   - [Installation](installation.md)
   - [Simplified syntax](simplified-syntax.md)
-  
+
 - API
   - [Middleware methods](api/methods.md)
   - [`Service` class](api/Service.md)
 
 - Examples
+  - [Auth retry middleware](examples/auth-middleware.md)
   - [Locale middleware](examples/locale-middleware.md)
   - [Service module](examples/service.md)
   - [Returning promises](examples/promise.md)
