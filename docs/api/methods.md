@@ -6,7 +6,7 @@ These will be called at different step of a request lifecycle. Each method can r
 
 ## `onRequest(config)`
 
-Receives the configuration objects before the request is made. Useful to add headers, query parameters, validate data, etc.
+Receives the configuration object before the request is made. Useful to add headers, query parameters, validate data, etc.
 
 !> It must return the received `config` even if no changes were made to it. It can also return a promise that should resolve with the config to use for the request.
 
@@ -15,6 +15,8 @@ Receives the configuration objects before the request is made. Useful to add hea
 No internet connection right now? You might end up in this function. Do what you need with the error.
 
 You can return a promise, or throw another error to keep the middleware chain going.
+
+!> Failing to return a rejecting promise or throw an error would mean that the error was dealt with and the chain would continue on a success path.
 
 ## `onSync(promise)`
 
@@ -28,7 +30,7 @@ Parsing the response can be done here. Say all responses from your API are retur
 
 ```javascript
 onResponse(response) {
-    return response._data;
+  return response._data;
 }
 ```
 
@@ -39,3 +41,5 @@ onResponse(response) {
 Not authenticated? Server problems? You might end up here. Do what you need with the error.
 
 ?> You can return a promise, which is useful when you want to retry failed requests.
+
+!> Failing to return a rejecting promise or throw an error would mean that the error was dealt with and the chain would continue on a success path.
