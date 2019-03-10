@@ -2,13 +2,15 @@
  * @property {Array} middlewares stack
  * @property {AxiosInstance} http
  * @property {Function} originalAdapter
- * @property {Number} _requestInterceptor
- * @property {Number} _responseInterceptor
  */
 export default class HttpMiddlewareService {
+  /**
+   * @param {AxiosInstance} [axios]
+   */
   constructor(axios) {
     this.middlewares = [];
 
+    this._updateChain();
     this.setHttp(axios);
   }
 
@@ -39,7 +41,7 @@ export default class HttpMiddlewareService {
   }
 
   /**
-   * @param {HttpMiddleware} middleware
+   * @param {Object|HttpMiddleware} [middleware]
    * @returns {boolean} true if the middleware is already registered.
    */
   has(middleware) {
@@ -48,7 +50,7 @@ export default class HttpMiddlewareService {
 
   /**
    * Adds a middleware or an array of middlewares to the stack.
-   * @param {HttpMiddleware|Array} middlewares
+   * @param {Object|HttpMiddleware|Array} [middlewares]
    * @returns {HttpMiddlewareService}
    */
   register(middlewares) {
@@ -57,24 +59,30 @@ export default class HttpMiddlewareService {
 
     // Test if middlewares are registered more than once.
     middlewares.forEach((middleware) => {
+      if (!middleware) return;
       if (this.has(middleware)) {
         throw new Error('Middleware already registered');
       }
       this.middlewares.push(middleware);
+      this._addMiddleware(middleware);
     });
     return this;
   }
 
   /**
    * Removes a middleware from the registered stack.
-   * @param {HttpMiddleware} middleware
+   * @param {Object|HttpMiddleware} [middleware]
    * @returns {HttpMiddlewareService}
    */
   unregister(middleware) {
-    const index = this.middlewares.indexOf(middleware);
-    if (index > -1) {
-      this.middlewares.splice(index, 1);
+    if (middleware) {
+      const index = this.middlewares.indexOf(middleware);
+      if (index > -1) {
+        this.middlewares.splice(index, 1);
+      }
+      this._updateChain();
     }
+
     return this;
   }
 
@@ -84,6 +92,7 @@ export default class HttpMiddlewareService {
    */
   reset() {
     this.middlewares.length = 0;
+    this._updateChain();
     return this;
   }
 
@@ -92,32 +101,45 @@ export default class HttpMiddlewareService {
    * @returns {Promise}
    */
   adapter(config) {
-    const chain = [conf => this._onSync(this.originalAdapter.call(this.http, conf)), undefined];
-    let promise = Promise.resolve(config);
-
-    this.middlewares.forEach((middleware) => {
-      chain.unshift(
-        middleware.onRequest && (conf => middleware.onRequest(conf)),
-        middleware.onRequestError && (error => middleware.onRequestError(error))
-      );
-    });
-
-    this.middlewares.forEach((middleware) => {
-      chain.push(
-        middleware.onResponse && (response => middleware.onResponse(response)),
-        middleware.onResponseError && (error => middleware.onResponseError(error))
-      );
-    });
-
-    while (chain.length) {
-      promise = promise.then(chain.shift(), chain.shift());
-    }
-
-    return promise;
+    return this.chain.reduce(
+      (acc, [onResolve, onError]) => acc.then(onResolve, onError),
+      Promise.resolve(config)
+    );
   }
 
   /**
-   * @param promise
+   *
+   * @param {Object} middleware
+   * @private
+   */
+  _addMiddleware(middleware) {
+    this.chain.unshift([
+      middleware.onRequest && ((conf) => {
+        const newConfig = middleware.onRequest(conf);
+        // if (newConfig === false){
+
+        // }
+        return newConfig;
+      }),
+      middleware.onRequestError && (error => middleware.onRequestError(error)),
+    ]);
+
+    this.chain.push([
+      middleware.onResponse && (response => middleware.onResponse(response)),
+      middleware.onResponseError && (error => middleware.onResponseError(error)),
+    ]);
+  }
+
+  /**
+   * @private
+   */
+  _updateChain() {
+    this.chain = [[conf => this._onSync(this.originalAdapter.call(this.http, conf)), undefined]];
+    this.middlewares.forEach(middleware => this._addMiddleware(middleware));
+  }
+
+  /**
+   * @param {Promise} promise
    * @returns {Promise}
    * @private
    */
