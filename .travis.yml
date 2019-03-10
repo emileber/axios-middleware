@@ -8,10 +8,11 @@ before_install:
 install:
   - npm ci
 before_script:
+  # Needs to build before linting because a test file imports the built file.
   - npm run build:dev
 script:
   - npm run lint
-  - npm run test:codecov
+  - npm run test:coverage
 cache:
   directories:
     - "$HOME/.npm"
