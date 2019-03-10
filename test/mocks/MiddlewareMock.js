@@ -1,11 +1,14 @@
+const identity = a => a;
+const reject = err => Promise.reject(err);
+
 export default class MiddlewareMock {
-  constructor() {
+  constructor(id = 'MiddlewareMock') {
     Object.assign(this, {
-      onRequest: jest.fn(config => config),
-      onRequestError: jest.fn(),
-      onSync: jest.fn(promise => promise),
-      onResponse: jest.fn(response => response),
-      onResponseError: jest.fn(),
+      onRequest: jest.fn(identity).mockName(`${id}.onRequest`),
+      onRequestError: jest.fn(reject).mockName(`${id}.onRequestError`),
+      onSync: jest.fn(identity).mockName(`${id}.onSync`),
+      onResponse: jest.fn(response => response).mockName(`${id}.onResponse`),
+      onResponseError: jest.fn(reject).mockName(`${id}.onResponseError`),
     });
   }
 }

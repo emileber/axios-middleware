@@ -1,3 +1,5 @@
+import { reduceHandlers } from './utils';
+
 /**
  * @property {Array} middlewares stack
  * @property {AxiosInstance} http
@@ -101,10 +103,22 @@ export default class HttpMiddlewareService {
    * @returns {Promise}
    */
   adapter(config) {
-    return this.chain.reduce(
-      (acc, [onResolve, onError]) => acc.then(onResolve, onError),
-      Promise.resolve(config)
-    );
+    const { request: requestHandlers, response } = this.chain;
+    return reduceHandlers(requestHandlers, Promise.resolve(config))
+      .then(
+        (conf) => {
+          if (!conf) {
+            const err = Error('Request cancelled within a middleware');
+            err.type = 'REQUEST_CANCELLED';
+            return Promise.reject(err);
+          }
+          return reduceHandlers(
+            response,
+            this._onSync(this.originalAdapter.call(this.http, conf))
+          );
+        },
+        err => reduceHandlers(response, Promise.reject(err))
+      );
   }
 
   /**
@@ -113,12 +127,17 @@ export default class HttpMiddlewareService {
    * @private
    */
   _addMiddleware(middleware) {
-    this.chain.unshift([
-      middleware.onRequest && (conf => middleware.onRequest(conf)),
+    if (!this.chain) {
+      this._updateChain();
+      return;
+    }
+
+    this.chain.request.unshift([
+      middleware.onRequest && (conf => conf && middleware.onRequest(conf)),
       middleware.onRequestError && (error => middleware.onRequestError(error)),
     ]);
 
-    this.chain.push([
+    this.chain.response.push([
       middleware.onResponse && (response => middleware.onResponse(response)),
       middleware.onResponseError && (error => middleware.onResponseError(error)),
     ]);
@@ -128,7 +147,10 @@ export default class HttpMiddlewareService {
    * @private
    */
   _updateChain() {
-    this.chain = [[conf => this._onSync(this.originalAdapter.call(this.http, conf)), undefined]];
+    this.chain = {
+      request: [],
+      response: [],
+    };
     this.middlewares.forEach(middleware => this._addMiddleware(middleware));
   }
 

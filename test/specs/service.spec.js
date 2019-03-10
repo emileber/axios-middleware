@@ -18,32 +18,6 @@ describe('Middleware service', () => {
     mock.restore();
   });
 
-  it('throws when adding the same middleware instance', () => {
-    const middleware = {};
-
-    service.register(middleware);
-
-    expect(() => service.register(middleware)).toThrow();
-  });
-
-  it('works with both middleware syntaxes', () => {
-    expect.assertions(2);
-    const middleware = new MiddlewareMock();
-    const simplifiedSyntax = {
-      onRequest: jest.fn(config => config),
-    };
-
-    service.register([
-      middleware,
-      simplifiedSyntax,
-    ]);
-
-    service.adapter().then(() => {
-      expect(middleware.onRequest).toHaveBeenCalled();
-      expect(simplifiedSyntax.onRequest).toHaveBeenCalled();
-    });
-  });
-
   it('runs the middlewares in order', () => {
     expect.assertions(1);
 
