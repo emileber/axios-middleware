@@ -1,6 +1,6 @@
 # project
 /dist/
-/test/coverage/
+/coverage/
 .eslintrc.json
 
 # IDE and OS
@@ -47,4 +47,3 @@ typings/
 
 # dotenv environment variables file
 .env
-
