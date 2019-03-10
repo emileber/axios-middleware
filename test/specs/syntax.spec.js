@@ -1,5 +1,3 @@
-// import axios from 'axios';
-// import MockAdapter from 'axios-mock-adapter';
 import { Service } from '../../dist/axios-middleware.common';
 import MiddlewareMock from '../mocks/MiddlewareMock';
 
