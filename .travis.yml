@@ -7,11 +7,9 @@ before_install:
   - npm i -g npm@6.0.1
 install:
   - npm ci
-before_script:
-  - npm run build:dev
 script:
   - npm run lint
-  - npm run test:codecov
+  - npm run test:coverage
 cache:
   directories:
     - "$HOME/.npm"
