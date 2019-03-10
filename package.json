@@ -22,7 +22,7 @@
     "release": "bash build/release.sh",
     "test": "run-p lint test:unit",
     "pretest:unit": "npm run build:dev",
-    "test:unit": "jest --config test/jest.conf.js",
+    "test:unit": "jest",
     "pretest:coverage": "npm run test:unit -- --coverage",
     "test:coverage": "codecov",
     "lint": "eslint ./",
