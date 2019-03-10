@@ -7,6 +7,9 @@ before_install:
   - npm i -g npm@6.0.1
 install:
   - npm ci
+before_script:
+  # Needs to build before linting because a test file imports the built file.
+  - npm run build:dev
 script:
   - npm run lint
   - npm run test:coverage
