@@ -114,13 +114,7 @@ export default class HttpMiddlewareService {
    */
   _addMiddleware(middleware) {
     this.chain.unshift([
-      middleware.onRequest && ((conf) => {
-        const newConfig = middleware.onRequest(conf);
-        // if (newConfig === false){
-
-        // }
-        return newConfig;
-      }),
+      middleware.onRequest && (conf => middleware.onRequest(conf)),
       middleware.onRequestError && (error => middleware.onRequestError(error)),
     ]);
 
