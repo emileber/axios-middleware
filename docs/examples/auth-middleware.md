@@ -20,8 +20,8 @@ export default class AuthMiddleware {
             ...err.config.headers,
             Authorization: `Bearer ${token}`
           }
-        })
-        .catch(function (error) {
+        }))
+        .catch((error) => {
           console.log('Refresh login error: ', error);
           throw error;
         });
