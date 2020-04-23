@@ -14,7 +14,7 @@ export default class AuthMiddleware {
       return this.auth()
         // Retrying the request now that we're authenticated.
         .then((token) => this.http({
-          ...err.config
+          ...err.config,
           hasRetriedRequest: true,
           headers: {
             ...err.config.headers,
