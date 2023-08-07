@@ -24,7 +24,7 @@ export default class HttpMiddlewareService {
     if (axios) {
       this.http = axios;
       this.originalAdapter = axios.defaults.adapter;
-      axios.defaults.adapter = config => this.adapter(config);
+      axios.defaults.adapter = (config) => this.adapter(config);
     }
     return this;
   }
@@ -103,7 +103,7 @@ export default class HttpMiddlewareService {
   adapter(config) {
     return this.chain.reduce(
       (acc, [onResolve, onError]) => acc.then(onResolve, onError),
-      Promise.resolve(config)
+      Promise.resolve(config),
     );
   }
 
@@ -114,13 +114,15 @@ export default class HttpMiddlewareService {
    */
   _addMiddleware(middleware) {
     this.chain.unshift([
-      middleware.onRequest && (conf => middleware.onRequest(conf)),
-      middleware.onRequestError && (error => middleware.onRequestError(error)),
+      middleware.onRequest && ((conf) => middleware.onRequest(conf)),
+      middleware.onRequestError &&
+        ((error) => middleware.onRequestError(error)),
     ]);
 
     this.chain.push([
-      middleware.onResponse && (response => middleware.onResponse(response)),
-      middleware.onResponseError && (error => middleware.onResponseError(error)),
+      middleware.onResponse && ((response) => middleware.onResponse(response)),
+      middleware.onResponseError &&
+        ((error) => middleware.onResponseError(error)),
     ]);
   }
 
@@ -128,8 +130,13 @@ export default class HttpMiddlewareService {
    * @private
    */
   _updateChain() {
-    this.chain = [[conf => this._onSync(this.originalAdapter.call(this.http, conf)), undefined]];
-    this.middlewares.forEach(middleware => this._addMiddleware(middleware));
+    this.chain = [
+      [
+        (conf) => this._onSync(this.originalAdapter.call(this.http, conf)),
+        undefined,
+      ],
+    ];
+    this.middlewares.forEach((middleware) => this._addMiddleware(middleware));
   }
 
   /**
@@ -140,7 +147,7 @@ export default class HttpMiddlewareService {
   _onSync(promise) {
     return this.middlewares.reduce(
       (acc, middleware) => (middleware.onSync ? middleware.onSync(acc) : acc),
-      promise
+      promise,
     );
   }
 }

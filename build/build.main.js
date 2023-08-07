@@ -2,7 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
-const uglify = require('uglify-js');
 const rollup = require('rollup');
 const configs = require('./configs');
 
@@ -10,18 +9,20 @@ if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist');
 }
 
-build(Object.keys(configs).map(key => configs[key]));
+build(Object.keys(configs).map((key) => configs[key]));
 
 function build(builds) {
   let built = 0;
   const total = builds.length;
   const next = () => {
-    buildEntry(builds[built]).then(() => {
-      built++;
-      if (built < total) {
-        next();
-      }
-    }).catch(logError);
+    buildEntry(builds[built])
+      .then(() => {
+        built++;
+        if (built < total) {
+          next();
+        }
+      })
+      .catch(logError);
   };
 
   next();
@@ -29,26 +30,35 @@ function build(builds) {
 
 function buildEntry({ input, output }) {
   const isProd = /min\.js$/.test(output.file);
-  return rollup.rollup(input)
-    .then(bundle => bundle.generate(output))
-    .then(({ output: codeOutput }) => Promise.all(codeOutput.map((chunk) => {
-      if (chunk.isAsset) {
-        throw Error('Asset found in generated output.');
-      }
-      if (isProd) {
-        const minified = (output.banner ? output.banner + '\n' : '') + uglify.minify(chunk.code, {
-          output: { ascii_only: true },
-        }).code;
-        return write(output.file, minified, true);
-      }
-      return write(output.file, chunk.code);
-    })));
+  return rollup
+    .rollup(input)
+    .then((bundle) => bundle.generate(output))
+    .then(({ output: codeOutput }) =>
+      Promise.all(
+        codeOutput.map((chunk) => {
+          if (chunk.isAsset) {
+            throw Error('Asset found in generated output.');
+          }
+          if (isProd) {
+            const minified =
+              (output.banner ? output.banner + '\n' : '') + chunk.code;
+            return write(output.file, minified, true);
+          }
+          return write(output.file, chunk.code);
+        }),
+      ),
+    );
 }
 
 function write(dest, code, zip) {
   return new Promise((resolve, reject) => {
     function report(extra) {
-      logError(blue(path.relative(process.cwd(), dest)) + ' ' + getSize(code) + (extra || ''));
+      logError(
+        blue(path.relative(process.cwd(), dest)) +
+          ' ' +
+          getSize(code) +
+          (extra || ''),
+      );
       resolve();
     }
 

@@ -2,10 +2,7 @@ const path = require('path');
 
 module.exports = {
   rootDir: path.resolve(__dirname),
-  moduleFileExtensions: [
-    'js',
-    'json',
-  ],
+  moduleFileExtensions: ['js', 'json'],
   // moduleNameMapper: {
   //     '^@/(.*)$': '<rootDir>/src/$1', // 'src' directory alias
   //     '^~/(.*)$': '<rootDir>/test/$1', // 'test' directory alias
@@ -16,8 +13,5 @@ module.exports = {
   // setupFiles: ['<rootDir>/test/setup'],
   // mapCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
-  collectCoverageFrom: [
-    'src/**/*.js',
-    '!**/node_modules/**',
-  ],
+  collectCoverageFrom: ['src/**/*.js', '!**/node_modules/**'],
 };
