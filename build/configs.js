@@ -11,7 +11,7 @@ const banner = `/**
  * @license MIT
  */`;
 
-const resolve = _path => path.resolve(__dirname, '../', _path);
+const resolve = (_path) => path.resolve(__dirname, '../', _path);
 
 const configs = {
   umdDev: {
@@ -58,9 +58,11 @@ function genConfig(opts) {
   };
 
   if (opts.env) {
-    config.input.plugins.unshift(replace({
-      'process.env.NODE_ENV': JSON.stringify(opts.env),
-    }));
+    config.input.plugins.unshift(
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(opts.env),
+      }),
+    );
   }
 
   return config;

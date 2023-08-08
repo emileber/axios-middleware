@@ -30,13 +30,10 @@ describe('Middleware service', () => {
     expect.assertions(2);
     const middleware = new MiddlewareMock();
     const simplifiedSyntax = {
-      onRequest: jest.fn(config => config),
+      onRequest: jest.fn((config) => config),
     };
 
-    service.register([
-      middleware,
-      simplifiedSyntax,
-    ]);
+    service.register([middleware, simplifiedSyntax]);
 
     service.adapter().then(() => {
       expect(middleware.onRequest).toHaveBeenCalled();
@@ -62,12 +59,9 @@ describe('Middleware service', () => {
       };
     }
 
-    service.register([
-      getMiddleware(1),
-      getMiddleware(2),
-    ]);
+    service.register([getMiddleware(1), getMiddleware(2)]);
 
-    mock.onAny().reply(config => [200, config.param]);
+    mock.onAny().reply((config) => [200, config.param]);
 
     return http(request).then((response) => {
       expect(response.data.test).toBe('-req2--req1--resp1--resp2-');
@@ -112,12 +106,9 @@ describe('Middleware service', () => {
       };
     }
 
-    service.register([
-      getMiddleware(1),
-      getMiddleware(2),
-    ]);
+    service.register([getMiddleware(1), getMiddleware(2)]);
 
-    mock.onAny().reply(config => [200, config.param]);
+    mock.onAny().reply((config) => [200, config.param]);
 
     return http(request).then((response) => {
       expect(response.data.test).toBe('-req2--req1--resp1--resp2-');
