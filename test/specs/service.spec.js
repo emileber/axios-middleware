@@ -18,6 +18,26 @@ describe('Middleware service', () => {
     mock.restore();
   });
 
+  it('works with the global axios instance', () => {
+    expect.assertions(3);
+
+    const axiosAdapter = axios.defaults.adapter;
+    const globalMock = new MockAdapter(axios);
+    const globalService = new Service(axios);
+
+    globalMock.onAny().reply((config) => [200, config.param]);
+
+    return axios().then(() => {
+      expect(axios.defaults.adapter).not.toBe(axiosAdapter);
+      expect(axios.defaults.adapter).toBeInstanceOf(Function);
+
+      globalService.unsetHttp();
+      globalMock.restore();
+
+      expect(axios.defaults.adapter).toBe(axiosAdapter);
+    });
+  });
+
   it('throws when adding the same middleware instance', () => {
     const middleware = {};
 
@@ -70,6 +90,7 @@ describe('Middleware service', () => {
 
   it('can catch current request promise', () => {
     expect.assertions(1);
+
     service.register({
       onSync(promise) {
         expect(promise).toBeInstanceOf(Promise);
