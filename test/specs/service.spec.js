@@ -7,18 +7,28 @@ const http = axios.create();
 const mock = new MockAdapter(http);
 
 describe('Middleware service', () => {
-  const service = new Service(http);
-
   afterEach(() => {
     mock.reset();
-    service.reset();
   });
 
   afterAll(() => {
     mock.restore();
   });
 
+  it('works with the global axios instance', () => {
+    const axiosAdapter = axios.defaults.adapter;
+    const globalService = new Service(axios);
+
+    expect(axios.defaults.adapter).not.toBe(axiosAdapter);
+    expect(axios.defaults.adapter).toBeInstanceOf(Function);
+
+    globalService.unsetHttp();
+
+    expect(axios.defaults.adapter).toBe(axiosAdapter);
+  });
+
   it('throws when adding the same middleware instance', () => {
+    const service = new Service(http);
     const middleware = {};
 
     service.register(middleware);
@@ -28,6 +38,7 @@ describe('Middleware service', () => {
 
   it('works with both middleware syntaxes', () => {
     expect.assertions(2);
+    const service = new Service(http);
     const middleware = new MiddlewareMock();
     const simplifiedSyntax = {
       onRequest: jest.fn((config) => config),
@@ -43,6 +54,8 @@ describe('Middleware service', () => {
 
   it('runs the middlewares in order', () => {
     expect.assertions(1);
+
+    const service = new Service(http);
 
     const request = { method: 'get', param: { test: '' } };
 
@@ -70,6 +83,8 @@ describe('Middleware service', () => {
 
   it('can catch current request promise', () => {
     expect.assertions(1);
+
+    const service = new Service(http);
     service.register({
       onSync(promise) {
         expect(promise).toBeInstanceOf(Promise);
@@ -105,6 +120,8 @@ describe('Middleware service', () => {
         },
       };
     }
+
+    const service = new Service(http);
 
     service.register([getMiddleware(1), getMiddleware(2)]);
 

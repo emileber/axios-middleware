@@ -21,11 +21,24 @@ export default class HttpMiddlewareService {
   setHttp(axios) {
     this.unsetHttp();
 
-    if (axios) {
-      this.http = axios;
-      this.originalAdapter = axios.defaults.adapter;
-      axios.defaults.adapter = (config) => this.adapter(config);
+    if (!axios) return this;
+
+    this.http = axios;
+    this.originalAdapterValue = axios.defaults.adapter;
+    this.originalAdapter = this.originalAdapterValue;
+
+    if (typeof this.originalAdapter !== 'function') {
+      const blankAxios = axios.create();
+      this.originalAdapter = (...args) => {
+        console.log(
+          'DEBUG: originalAdapter was not a function.',
+          this.originalAdapterValue,
+        );
+        return blankAxios.defaults.adapter(...args);
+      };
     }
+    axios.defaults.adapter = (config) => this.adapter(config);
+
     return this;
   }
 
@@ -34,7 +47,7 @@ export default class HttpMiddlewareService {
    */
   unsetHttp() {
     if (this.http) {
-      this.http.defaults.adapter = this.originalAdapter;
+      this.http.defaults.adapter = this.originalAdapterValue;
       this.http = null;
     }
     return this;
